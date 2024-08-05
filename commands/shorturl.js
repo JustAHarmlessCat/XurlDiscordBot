@@ -61,7 +61,9 @@ module.exports = {
     }
     );
 
-    const message = `New URL created: https://dev.xurl.app/${customSlug}`;
+    const res = response.data
+    const row = res.split("\n")[1].slice(2)
+    const message = JSON.parse(row).message
 
     await interaction.reply({
       content: message,
@@ -69,4 +71,4 @@ module.exports = {
     });
     return;
   }
-};
+}
