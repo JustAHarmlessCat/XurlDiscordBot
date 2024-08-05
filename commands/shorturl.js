@@ -24,6 +24,12 @@ module.exports = {
         .setRequired(true)
         .setAutocomplete(true)
     )
+    .addBooleanOption((option) =>
+      option
+        .setName("delete_after_viewed")
+        .setDescription("Delete the shortened URL after it is viewed")
+        .setRequired(false)
+  )
     .addStringOption((option) =>
       option
         .setName("password")
@@ -33,6 +39,10 @@ module.exports = {
   async execute(interaction) {
     const redirectUrl = interaction.options.getString("original_url");
     const customSlug = interaction.options.getString("custom_slug");
+    var delete_after_viewed = interaction.options.getBoolean("delete_after_viewed");
+    if (delete_after_viewed == null) {
+      delete_after_viewed = false;
+    }
     var password = interaction.options.getString("password");
     if (password == null) {
       password = "";
@@ -43,7 +53,6 @@ module.exports = {
     }
     
     const expiration = interaction.options.getString("expiration");
-    const deleteAfterViewed = false;
 
     const response = await axios.post("https://dev.xurl.app/new",[{
       type: "SHORTURL",
@@ -51,7 +60,7 @@ module.exports = {
       isPasswordProtected: isPasswordProtected,
       password: password,
       expiration: expiration,
-      deleteAfterViewed: deleteAfterViewed,
+      deleteAfterViewed: delete_after_viewed,
       redirectUrl: redirectUrl,
     }], 
     {
