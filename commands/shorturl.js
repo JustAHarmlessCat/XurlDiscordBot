@@ -57,7 +57,7 @@ module.exports = {
     const expiration = interaction.options.getString("expiration");
 
     const response = await axios.post(
-      "https://dev.xurl.app/new",
+      "https://xurl.app/new",
       [
         {
           type: "SHORTURL",
